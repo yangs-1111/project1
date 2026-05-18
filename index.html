@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>우리반 알림장 & 홈</title>
+    <style>
+        /* 기본 스타일 리셋 및 폰트 설정 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f0f2f5;
+            color: #333;
+            padding: 20px;
+        }
+
+        /* 헤더 스타일 */
+        header {
+            background-color: #4a90e2;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            margin-bottom: 10px;
+        }
+
+        /* 메인 레이아웃 (그리드) */
+        .container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* 카드 공통 스타일 */
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+
+        .card h2 {
+            border-bottom: 2px solid #4a90e2;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+            color: #4a90e2;
+        }
+
+        /* 알림장 스타일 */
+        .notice-list {
+            list-style: none;
+        }
+
+        .notice-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .notice-list li:last-child {
+            border-bottom: none;
+        }
+
+        .date {
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        /* 디데이 & 한줄 메모 입력 스타일 */
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background-color: #357abd;
+        }
+
+        /* 급식/시간표 테이블 스타일 */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 헤더 영역 -->
+    <header>
+        <h1 id="class-title">상큼발랄 3학년 2반</h1>
+        <p>오늘도 서로를 존중하며 행복한 하루를 보냅시다!</p>
+    </header>
+
+    <!-- 메인 콘텐츠 영역 -->
+    <div class="container">
+        
+        <!-- 왼쪽: 알림장 및 게시판 -->
+        <main>
+            <div class="card">
+                <h2>📢 오늘의 알림장</h2>
+                <ul class="notice-list">
+                    <li><span>1. 수학 수행평가 준비물 (자, 컴퍼스) 챙기기</span><span class="date">05/18</span></li>
+                    <li><span>2. 가정통신문(체험학습 동의서) 내일까지 제출</span><span class="date">05/18</span></li>
+                    <li><span>3. 내일은 체육복 입고 등교하는 날</span><span class="date">05/17</span></li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>✍️ 오늘의 한마디 (방명록)</h2>
+                <p>학교에 하고 싶은 말이나 건의사항을 자유롭게 남겨주세요.</p>
+                <div class="input-group">
+                    <input type="text" id="memo-input" placeholder="여기에 메시지를 입력하세요...">
+                    <button onclick="addMemo()">등록</button>
+                </div>
+                <ul id="memo-list" class="notice-list" style="margin-top: 15px;">
+                    <!-- 입력한 메모가 여기에 추가됩니다 -->
+                </ul>
+            </div>
+        </main>
+
+        <!-- 오른쪽: 시간표 및 급식 (사이드바) -->
+        <aside>
+            <div class="card">
+                <h2>📅 오늘의 시간표</h2>
+                <table>
+                    <tr><th>교시</th><th>과목</th></tr>
+                    <tr><td>1교시</td><td>국어</td></tr>
+                    <tr><td>2교시</td><td>수학</td></tr>
+                    <tr><td>3교시</td><td>영어</td></tr>
+                    <tr><td>4교시</td><td>과학</td></tr>
+                    <tr><td>5교시</td><td>체육</td></tr>
+                    <tr><td>6교시</td><td>미술</td></tr>
+                </table>
+            </div>
+
+            <div class="card">
+                <h2>🍱 오늘의 급식</h2>
+                <p style="line-height: 1.6; text-align: center;">
+                    차조밥 <br>
+                    돈육김치찌개 <br>
+                    안동찜닭 <br>
+                    오이도라지무침 <br>
+                    총각김치 / 멜론
+                </p>
+            </div>
+        </aside>
+
+    </div>
+
+    <!-- 자바스크립트 영역 -->
+    <script>
+        // 한줄 메모 등록 기능
+        function addMemo() {
+            const input = document.getElementById('memo-input');
+            const memoText = input.value.trim();
+            
+            if (memoText === "") {
+                alert("내용을 입력해주세요!");
+                return;
+            }
+
+            const memoList = document.getElementById('memo-list');
+            const li = document.createElement('li');
+            
+            // 현재 시간 구하기 (월/일)
+            const now = new Date();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const date = String(now.getDate()).padStart(2, '0');
+            const timeStr = `${month}/${date}`;
+
+            li.innerHTML = `<span>💬 ${memoText}</span><span class="date">${timeStr}</span>`;
+            
+            // 최신 글이 위로 오도록 추가
+            memoList.insertBefore(li, memoList.firstChild);
+            
+            // 입력창 비우기
+            input.value = "";
+        }
+
+        // 엔터키 처리
+        document.getElementById('memo-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                addMemo();
+            }
+        });
+    </script>
+</body>
+</html>
